@@ -1,0 +1,4 @@
+- [] create drafts for the forms
+- [] create a list of supported actions/algorithms and the design (buttons etc)
+- [] add an option for the user to input the matrices (graphic/in TeX)
+- [] add an option for the user to visualize the results (graphic/in TeX)
