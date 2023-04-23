@@ -12,6 +12,30 @@ public class MatrixPanel extends JPanel {
         return this.matrix;
     }
 
+    public void setMatrix(double[][] matrix) {
+        if(matrix == null) {
+            return;
+        }
+        for(int i = 0; i < matrix.length; i++) {
+            for(int j = 0; j < matrix[0].length; j++) {
+                String num = String.valueOf(matrix[i][j]);
+                //if is integer, remove the .0
+                if(num.endsWith(".0")) {
+                    num = num.substring(0, num.length() - 2);
+                }
+                this.matrix[i][j].setText(num);
+            }
+        }
+    }
+
+    public void clearMatrix() {
+        for(int i = 0; i < this.matrix.length; i++) {
+            for(int j = 0; j < this.matrix[0].length; j++) {
+                this.matrix[i][j].setText("");
+            }
+        }
+    }
+
     public MatrixPanel(double[][] matrix) {
         super();
 
@@ -20,9 +44,11 @@ public class MatrixPanel extends JPanel {
 
         for(int i = 0; i < matrix.length; i++) {
             for(int j = 0; j < matrix[0].length; j++) {
-
-                String number = matrix[i][j] + "";
-                JTextField textField = new JTextField(number);
+                String num = matrix[i][j] + "";
+                if(num.endsWith(".0")) {
+                    num = num.substring(0, num.length() - 2);
+                }
+                JTextField textField = new JTextField(num);
                 textField.setFont(new Font("Arial", Font.PLAIN, 20));
                 textField.setHorizontalAlignment(JTextField.CENTER);
                 textField.setEditable(false);

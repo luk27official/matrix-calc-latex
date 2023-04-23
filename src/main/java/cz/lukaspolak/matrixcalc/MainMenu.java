@@ -83,16 +83,47 @@ public class MainMenu extends JFrame {
             double[][] result = Calculator.add(getFirstMatrix(), getSecondMatrix());
             displayResult(result);
         });
-        JButton button2 = new JButton("Button 2");
-        JButton button3 = new JButton("Button 3");
-        JButton button4 = new JButton("Button 4");
-        JButton button5 = new JButton("Button 5");
+
+        JButton subtractBtn = new JButton("A-B");
+        subtractBtn.addActionListener(e -> {
+            double[][] result = Calculator.subtract(getFirstMatrix(), getSecondMatrix());
+            displayResult(result);
+        });
+
+        JButton multiplyBtn = new JButton("A*B");
+        multiplyBtn.addActionListener(e -> {
+            double[][] result = Calculator.multiply(getFirstMatrix(), getSecondMatrix());
+            displayResult(result);
+        });
+
+        JButton switchBtn = new JButton("Switch");
+        switchBtn.addActionListener(e -> {
+            if(inputType.equals(PANEL1)) {
+                String tmp = inputTextArea1.getText();
+                inputTextArea1.setText(inputTextArea2.getText());
+                inputTextArea2.setText(tmp);
+            } else {
+                double[][] matrix1 = getFirstMatrix();
+                double[][] matrix2 = getSecondMatrix();
+
+                inputMatrixPanel1.setMatrix(matrix2);
+                inputMatrixPanel2.setMatrix(matrix1);
+            }
+        });
+
+        JButton clearBtn = new JButton("Clear");
+        clearBtn.addActionListener(e -> {
+            inputTextArea1.setText("");
+            inputTextArea2.setText("");
+            inputMatrixPanel1.clearMatrix();
+            inputMatrixPanel2.clearMatrix();
+        });
 
         buttons.add(additionBtn);
-        buttons.add(button2);
-        buttons.add(button3);
-        buttons.add(button4);
-        buttons.add(button5);
+        buttons.add(subtractBtn);
+        buttons.add(multiplyBtn);
+        buttons.add(switchBtn);
+        buttons.add(clearBtn);
 
         JTextField mSizeTextField = new JTextField("Enter m:");
         mSizeTextField.addActionListener(e -> {
