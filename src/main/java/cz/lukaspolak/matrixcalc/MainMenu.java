@@ -76,7 +76,7 @@ public class MainMenu extends JFrame {
         cards.add(card2, PANEL2);
 
         JPanel buttons = new JPanel();
-        buttons.setLayout(new GridLayout(2, 5));
+        buttons.setLayout(new GridLayout(3, 5));
 
         JButton additionBtn = new JButton("A+B");
         additionBtn.addActionListener(e -> {
@@ -185,6 +185,36 @@ public class MainMenu extends JFrame {
         });
         buttons.add(determinantBtn);
 
+        JButton inverseBtn = new JButton("A^-1");
+        inverseBtn.addActionListener(e -> {
+            if(this.heightM != this.widthN) {
+                displayErrorMessage("Matrix must be square.");
+                return;
+            }
+            double[][] result = Calculator.inverse(getFirstMatrix());
+            if(result == null) {
+                displayErrorMessage("Matrix is not invertible (has a determinant of 0).");
+                return;
+            }
+            displayMatrixResult(result);
+        });
+        buttons.add(inverseBtn);
+
+        JButton gaussBtn = new JButton("TODO Gauss(A)");
+        gaussBtn.addActionListener(e -> {
+            if(this.heightM != this.widthN) {
+                displayErrorMessage("Matrix must be square.");
+                return;
+            }
+            double[][] result = Calculator.gauss(getFirstMatrix());
+            displayMatrixResult(result);
+        });
+        buttons.add(gaussBtn);
+
+        buttons.add(new JButton("Next"));
+        buttons.add(new JButton("Next"));
+        buttons.add(new JButton("Next"));
+
         pane.add(comboBoxPane, BorderLayout.NORTH);
         pane.add(cards, BorderLayout.CENTER);
         pane.add(buttons, BorderLayout.SOUTH);
@@ -261,11 +291,12 @@ public class MainMenu extends JFrame {
         //DONE výpočet součtu, rozdílu, násobení
 
         //1 matice
-        //DONE transpozice, determinant
-        //výpočet ranku, Gauss. eliminace, inverze
+        //DONE transpozice, determinant, inverze
+        //výpočet ranku, Gauss. eliminace
         //umocneni, vynasobeni
 
         //TODO: add LaTeX parsing and output
         //TODO: how to handle fractions?
+        //TODO: add unit tests for calculator?
     }
 }

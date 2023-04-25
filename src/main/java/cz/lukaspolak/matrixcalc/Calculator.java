@@ -95,4 +95,48 @@ public class Calculator {
 
         return result;
     }
+
+    public static double[][] inverse(double[][] m) {
+        if(m == null) {
+            return null;
+        }
+
+        double det = determinant(m);
+
+        if(det == 0) {
+            return null;
+        }
+
+        double[][] result = new double[m.length][m.length];
+
+        for(int i = 0; i < m.length; i++) {
+            for(int j = 0; j < m.length; j++) {
+                double[][] tmp = new double[m.length - 1][m.length - 1];
+
+                for(int k = 0; k < m.length; k++) {
+                    for(int l = 0; l < m.length; l++) {
+                        if(k < i && l < j) {
+                            tmp[k][l] = m[k][l];
+                        } else if(k < i && l > j) {
+                            tmp[k][l - 1] = m[k][l];
+                        } else if(k > i && l < j) {
+                            tmp[k - 1][l] = m[k][l];
+                        } else if(k > i && l > j) {
+                            tmp[k - 1][l - 1] = m[k][l];
+                        }
+                    }
+                }
+
+                result[j][i] = Math.pow(-1, i + j) * determinant(tmp) / det;
+            }
+        }
+
+        return result;
+    }
+
+    public static double[][] gauss(double[][] m) {
+        //TODO: implement
+
+        return null;
+    }
 }
