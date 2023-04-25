@@ -287,14 +287,11 @@ public class MainMenu extends JFrame {
         mainPanel.setLayout(new BorderLayout());
         addComponentToPane(mainPanel);
 
-        //DONE 2 matice
-        //DONE výpočet součtu, rozdílu, násobení
+        //1 matrix
+        //DONE transpose, determinant, invert
 
-        //1 matice
-        //DONE transpozice, determinant, inverze
-        //výpočet ranku, Gauss. eliminace
-        //umocneni, vynasobeni
-
+        //TODO: rank, gauss, potentially eigenvalues, LU decomposition, QR decomposition, SVD, ...
+        //TODO: multiplication, exponentiation
         //TODO: add LaTeX parsing and output
         //TODO: how to handle fractions?
         //TODO: add unit tests for calculator?
