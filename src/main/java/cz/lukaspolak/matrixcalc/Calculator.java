@@ -2,6 +2,22 @@ package cz.lukaspolak.matrixcalc;
 
 public class Calculator {
 
+    public static double[][] transpose(double[][] m) {
+        if(m == null) {
+            return null;
+        }
+
+        double[][] result = new double[m[0].length][m.length];
+
+        for(int i = 0; i < m[0].length; i++) {
+            for(int j = 0; j < m.length; j++) {
+                result[i][j] = m[j][i];
+            }
+        }
+
+        return result;
+    }
+
     public static double[][] multiply(double[][] m1, double[][] m2) {
         if(m1 == null || m2 == null) {
             return null;

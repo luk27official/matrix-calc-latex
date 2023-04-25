@@ -27,7 +27,7 @@ public class MainMenu extends JFrame {
     private String inputType = PANEL1;
     private String outputType = OUTPUT1;
 
-    private int heightM = 3;
+    private int heightM = 4;
     private int widthN = 3;
 
     private void addComponentToPane(Container pane) {
@@ -166,7 +166,13 @@ public class MainMenu extends JFrame {
             this.outputType = (String)e.getItem();
         });
         buttons.add(cb2);
-        buttons.add(new JButton("Next"));
+
+        JButton transposeBtn = new JButton("A^T");
+        transposeBtn.addActionListener(e -> {
+            double[][] result = Calculator.transpose(getFirstMatrix());
+            displayResult(result);
+        });
+        buttons.add(transposeBtn);
         buttons.add(new JButton("Next"));
 
         pane.add(comboBoxPane, BorderLayout.NORTH);
@@ -229,11 +235,12 @@ public class MainMenu extends JFrame {
         mainPanel.setLayout(new BorderLayout());
         addComponentToPane(mainPanel);
 
-        //2 matice
-        //výpočet součtu, rozdílu, násobení
+        //DONE 2 matice
+        //DONE výpočet součtu, rozdílu, násobení
 
         //1 matice
-        //výpočet determinantu, transpozice, ranku, Gauss. eliminace, inverze
+        //DONE transpozice
+        //výpočet determinantu, ranku, Gauss. eliminace, inverze
         //umocneni, vynasobeni
     }
 }

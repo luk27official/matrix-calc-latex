@@ -66,7 +66,7 @@ public class MatrixPanel extends JPanel {
 
         for(int i = 0; i < m; i++) {
             for(int j = 0; j < n; j++) {
-                String number = i * m + j + "";
+                String number = i * n + j + "";
                 JTextField textField = new JTextField(number);
                 textField.setFont(new Font("Arial", Font.PLAIN, 20));
                 textField.setHorizontalAlignment(JTextField.CENTER);
