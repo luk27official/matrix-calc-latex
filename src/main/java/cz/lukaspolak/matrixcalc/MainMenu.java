@@ -81,19 +81,19 @@ public class MainMenu extends JFrame {
         JButton additionBtn = new JButton("A+B");
         additionBtn.addActionListener(e -> {
             double[][] result = Calculator.add(getFirstMatrix(), getSecondMatrix());
-            displayResult(result);
+            displayMatrixResult(result);
         });
 
         JButton subtractBtn = new JButton("A-B");
         subtractBtn.addActionListener(e -> {
             double[][] result = Calculator.subtract(getFirstMatrix(), getSecondMatrix());
-            displayResult(result);
+            displayMatrixResult(result);
         });
 
         JButton multiplyBtn = new JButton("A*B");
         multiplyBtn.addActionListener(e -> {
             double[][] result = Calculator.multiply(getFirstMatrix(), getSecondMatrix());
-            displayResult(result);
+            displayMatrixResult(result);
         });
 
         JButton switchBtn = new JButton("Switch");
@@ -170,10 +170,20 @@ public class MainMenu extends JFrame {
         JButton transposeBtn = new JButton("A^T");
         transposeBtn.addActionListener(e -> {
             double[][] result = Calculator.transpose(getFirstMatrix());
-            displayResult(result);
+            displayMatrixResult(result);
         });
         buttons.add(transposeBtn);
-        buttons.add(new JButton("Next"));
+
+        JButton determinantBtn = new JButton("det(A)");
+        determinantBtn.addActionListener(e -> {
+            if(this.heightM != this.widthN) {
+                displayErrorMessage("Matrix must be square.");
+                return;
+            }
+            double result = Calculator.determinant(getFirstMatrix());
+            displayNumberResult(result);
+        });
+        buttons.add(determinantBtn);
 
         pane.add(comboBoxPane, BorderLayout.NORTH);
         pane.add(cards, BorderLayout.CENTER);
@@ -215,9 +225,21 @@ public class MainMenu extends JFrame {
         this.repaint();
     }
 
-    private void displayResult(double[][] matrix) {
+    private void displayErrorMessage(String error) {
+        JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    private void displayNumberResult(double result) {
+        String num = String.valueOf(result);
+        //if is integer, remove the .0
+        if(num.endsWith(".0")) {
+            num = num.substring(0, num.length() - 2);
+        }
+        JOptionPane.showMessageDialog(this, "The result is " + num, "Result", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void displayMatrixResult(double[][] matrix) {
         if(matrix == null) {
-            JOptionPane.showMessageDialog(this, "Invalid input.", "Error", JOptionPane.ERROR_MESSAGE);
+            displayErrorMessage("Invalid input.");
             return;
         }
         MatrixPanel resultPanel = new MatrixPanel(matrix);
@@ -239,8 +261,11 @@ public class MainMenu extends JFrame {
         //DONE výpočet součtu, rozdílu, násobení
 
         //1 matice
-        //DONE transpozice
-        //výpočet determinantu, ranku, Gauss. eliminace, inverze
+        //DONE transpozice, determinant
+        //výpočet ranku, Gauss. eliminace, inverze
         //umocneni, vynasobeni
+
+        //TODO: add LaTeX parsing and output
+        //TODO: how to handle fractions?
     }
 }

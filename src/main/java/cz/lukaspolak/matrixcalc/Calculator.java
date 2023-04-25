@@ -61,4 +61,38 @@ public class Calculator {
         }
         return m1;
     }
+
+    public static double determinant(double[][] m) {
+        if(m == null) {
+            return 0;
+        }
+
+        if(m.length == 1) {
+            return m[0][0];
+        }
+
+        if(m.length == 2) {
+            return m[0][0] * m[1][1] - m[0][1] * m[1][0];
+        }
+
+        double result = 0;
+
+        for(int i = 0; i < m.length; i++) {
+            double[][] tmp = new double[m.length - 1][m.length - 1];
+
+            for(int j = 1; j < m.length; j++) {
+                for(int k = 0; k < m.length; k++) {
+                    if(k < i) {
+                        tmp[j - 1][k] = m[j][k];
+                    } else if(k > i) {
+                        tmp[j - 1][k - 1] = m[j][k];
+                    }
+                }
+            }
+
+            result += m[0][i] * Math.pow(-1, i) * determinant(tmp);
+        }
+
+        return result;
+    }
 }
