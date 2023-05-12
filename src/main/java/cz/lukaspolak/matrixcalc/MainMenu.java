@@ -30,6 +30,8 @@ public class MainMenu extends JFrame {
     private int heightM = 4;
     private int widthN = 3;
 
+    private double scalar = 1;
+
     private void addComponentToPane(Container pane) {
         JPanel comboBoxPane = new JPanel();
         String[] comboBoxItems = {PANEL1, PANEL2};
@@ -76,7 +78,7 @@ public class MainMenu extends JFrame {
         cards.add(card2, PANEL2);
 
         JPanel buttons = new JPanel();
-        buttons.setLayout(new GridLayout(3, 5));
+        buttons.setLayout(new GridLayout(4, 5));
 
         JButton additionBtn = new JButton("A+B");
         additionBtn.addActionListener(e -> {
@@ -140,6 +142,7 @@ public class MainMenu extends JFrame {
                 System.out.println("Invalid number format.");
             }
         });
+        buttons.add(mSizeTextField);
 
         JTextField nSizeTextField = new JTextField("Enter n:");
         nSizeTextField.addActionListener(e -> {
@@ -156,9 +159,8 @@ public class MainMenu extends JFrame {
                 System.out.println("Invalid number format.");
             }
         });
-
-        buttons.add(mSizeTextField);
         buttons.add(nSizeTextField);
+
         String[] outputCBItems = {OUTPUT1, OUTPUT2};
         JComboBox<String> cb2 = new JComboBox<>(outputCBItems);
         cb2.setEditable(false);
@@ -200,20 +202,58 @@ public class MainMenu extends JFrame {
         });
         buttons.add(inverseBtn);
 
-        JButton gaussBtn = new JButton("TODO Gauss(A)");
+        JButton gaussBtn = new JButton("Gauss(A)");
         gaussBtn.addActionListener(e -> {
-            if(this.heightM != this.widthN) {
-                displayErrorMessage("Matrix must be square.");
-                return;
-            }
             double[][] result = Calculator.gauss(getFirstMatrix());
             displayMatrixResult(result);
         });
         buttons.add(gaussBtn);
 
-        buttons.add(new JButton("Next"));
-        buttons.add(new JButton("Next"));
-        buttons.add(new JButton("Next"));
+        JButton rankBtn = new JButton("rank(A)");
+        rankBtn.addActionListener(e -> {
+            if(this.heightM != this.widthN) {
+                displayErrorMessage("Matrix must be square.");
+                return;
+            }
+            int result = Calculator.rank(getFirstMatrix());
+            displayNumberResult(result);
+        });
+        buttons.add(rankBtn);
+
+        JTextField scalarTextField = new JTextField("Enter scalar:");
+        scalarTextField.addActionListener(e -> {
+            try {
+                this.scalar = Double.parseDouble(scalarTextField.getText());
+            } catch (NumberFormatException ex) {
+                System.out.println("Invalid number format.");
+            }
+        });
+        buttons.add(scalarTextField);
+
+        JButton scalarMultiplyBtn = new JButton("A*scalar");
+        scalarMultiplyBtn.addActionListener(e -> {
+            double[][] result = Calculator.scalarMultiply(getFirstMatrix(), this.scalar);
+            displayMatrixResult(result);
+        });
+        buttons.add(scalarMultiplyBtn);
+
+        JButton scalarAddBtn = new JButton("A+scalar");
+        scalarAddBtn.addActionListener(e -> {
+            double[][] result = Calculator.scalarAdd(getFirstMatrix(), this.scalar);
+            displayMatrixResult(result);
+        });
+        buttons.add(scalarAddBtn);
+
+        JButton exponentBtn = new JButton("A^scalar");
+        exponentBtn.addActionListener(e -> {
+            double[][] result = Calculator.exponent(getFirstMatrix(), this.scalar);
+            displayMatrixResult(result);
+        });
+        buttons.add(exponentBtn);
+
+        buttons.add(new JButton(""));
+        buttons.add(new JButton(""));
+        buttons.add(new JButton(""));
 
         pane.add(comboBoxPane, BorderLayout.NORTH);
         pane.add(cards, BorderLayout.CENTER);
@@ -289,11 +329,12 @@ public class MainMenu extends JFrame {
 
         //1 matrix
         //DONE transpose, determinant, invert
+        //DONE: multiplication, exponentiation
 
-        //TODO: rank, gauss, potentially eigenvalues, LU decomposition, QR decomposition, SVD, ...
-        //TODO: multiplication, exponentiation
         //TODO: add LaTeX parsing and output
         //TODO: how to handle fractions?
-        //TODO: add unit tests for calculator?
+
+        //low-priority TODO: potentially eigenvalues, LU decomposition, QR decomposition, SVD, ...
+        //TODO: improve unit tests for calculator
     }
 }

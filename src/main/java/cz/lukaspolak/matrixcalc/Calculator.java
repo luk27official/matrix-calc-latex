@@ -1,5 +1,7 @@
 package cz.lukaspolak.matrixcalc;
 
+import java.util.ArrayList;
+
 public class Calculator {
 
     public static double[][] transpose(double[][] m) {
@@ -135,8 +137,180 @@ public class Calculator {
     }
 
     public static double[][] gauss(double[][] m) {
-        //TODO: implement
+        if(m == null) {
+            return null;
+        }
 
-        return null;
+        int numRows = m.length;
+        int numCols = m[0].length;
+
+        double[][] result = new double[numRows][numCols];
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                result[i][j] = m[i][j];
+            }
+        }
+
+        // Gaussian elimination with partial pivoting
+        for (int col = 0; col < numCols; col++) {
+            // find the row with the largest absolute value in the current column
+            int maxRow = col;
+            if(col == numRows) { // for rectangular matrices
+                break;
+            }
+            double maxValue = Math.abs(result[col][col]);
+            for (int row = col + 1; row < numRows; row++) {
+                double value = Math.abs(result[row][col]);
+                if (value > maxValue) {
+                    maxRow = row;
+                    maxValue = value;
+                }
+            }
+
+            // if all values in this column are zero, move on to the next column
+            if (maxValue == 0) {
+                continue;
+            }
+
+            // swap the current row with the row containing the largest absolute value
+            if (maxRow != col) {
+                double[] tempRow = result[col];
+                result[col] = result[maxRow];
+                result[maxRow] = tempRow;
+            }
+
+            // perform row operations to eliminate all values below the pivot element
+            double pivot = result[col][col];
+            for (int row = col + 1; row < numRows; row++) {
+                double factor = result[row][col] / pivot;
+                for (int col2 = col; col2 < numCols; col2++) {
+                    result[row][col2] -= factor * result[col][col2];
+                }
+            }
+        }
+
+        // convert the result matrix to reduced row echelon form (RREF)
+        for (int row = numRows - 1; row >= 0; row--) {
+            // find the pivot element in this row
+            int pivotCol = -1;
+            for (int col = 0; col < numCols; col++) {
+                if (result[row][col] != 0) {
+                    pivotCol = col;
+                    break;
+                }
+            }
+
+            // if no pivot element was found, move on to the next row
+            if (pivotCol == -1) {
+                continue;
+            }
+
+            // divide the pivot row by the pivot element to make it equal to 1
+            double pivot = result[row][pivotCol];
+            for (int col = pivotCol; col < numCols; col++) {
+                result[row][col] /= pivot;
+            }
+
+            // subtract the pivot row from all rows above it to eliminate all values above the pivot element
+            for (int row2 = row - 1; row2 >= 0; row2--) {
+                double factor = result[row2][pivotCol];
+                for (int col = pivotCol; col < numCols; col++) {
+                    result[row2][col] -= factor * result[row][col];
+                }
+            }
+        }
+
+        // make sure that all non-zero rows are above any rows of all zeros
+        ArrayList<double[]> nonZeroRows = new ArrayList<>();
+        for(int i = 0; i < numRows; i++) {
+            boolean allZero = true;
+            for(int j = 0; j < numCols; j++) {
+                if(Math.abs(result[i][j]) > 1e-10) {
+                    allZero = false;
+                    break;
+                }
+            }
+            if(!allZero) {
+                nonZeroRows.add(result[i]);
+            }
+        }
+
+        result = new double[numRows][numCols];
+        for(int i = 0; i < nonZeroRows.size(); i++) {
+            result[i] = nonZeroRows.get(i);
+        }
+
+        return result;
+    }
+
+    public static int rank(double[][] m) {
+        if(m == null) {
+            return 0;
+        }
+
+        double reduced[][] = gauss(m);
+        int rank = 0;
+
+        for (int i = 0; i < reduced.length; i++) {
+            boolean allZero = true;
+            for (int j = 0; j < reduced[0].length; j++) {
+                if (reduced[i][j] != 0) {
+                    allZero = false;
+                    break;
+                }
+            }
+            if (!allZero) {
+                rank++;
+            }
+        }
+
+        return rank;
+    }
+
+    public static double[][] scalarMultiply(double[][] m, double scalar) {
+        if(m == null) {
+            return null;
+        }
+
+        double[][] result = new double[m.length][m[0].length];
+
+        for(int i = 0; i < m.length; i++) {
+            for(int j = 0; j < m[0].length; j++) {
+                result[i][j] = m[i][j] * scalar;
+            }
+        }
+
+        return result;
+    }
+
+    public static double[][] scalarAdd(double[][] m, double scalar) {
+        double[][] result = new double[m.length][m[0].length];
+
+        for(int i = 0; i < m.length; i++) {
+            for(int j = 0; j < m[0].length; j++) {
+                result[i][j] = m[i][j] + scalar;
+            }
+        }
+
+        return result;
+    }
+
+    public static double[][] exponent(double[][] m, double scalar) {
+        if(m == null) {
+            return null;
+        }
+
+        double[][] result = new double[m.length][m[0].length];
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < m[0].length; j++) {
+                result[i][j] = m[i][j];
+            }
+        }
+
+        for(int i = 0; i < scalar - 1; i++) {
+            result = multiply(result, m);
+        }
+
+        return result;
     }
 }
