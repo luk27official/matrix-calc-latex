@@ -44,7 +44,7 @@ public class MatrixPanel extends JPanel {
 
         for(int i = 0; i < matrix.length; i++) {
             for(int j = 0; j < matrix[0].length; j++) {
-                String num = matrix[i][j] + "";
+                String num = String.valueOf(matrix[i][j]);
                 if(num.endsWith(".0")) {
                     num = num.substring(0, num.length() - 2);
                 }
@@ -85,5 +85,24 @@ public class MatrixPanel extends JPanel {
                 this.matrix[i][j] = textField;
             }
         }
+    }
+
+    public MatrixPanel withFractions() {
+        for(int i = 0; i < this.matrix.length; i++) {
+            for(int j = 0; j < this.matrix[0].length; j++) {
+                String num = this.matrix[i][j].getText();
+                if(num.endsWith(".0")) {
+                    num = num.substring(0, num.length() - 2);
+                }
+                else if(num.contains(".") && !num.contains("/")) {
+                    double[] fraction = Calculator.doubleToFraction(Double.parseDouble(num));
+                    String numerator = String.valueOf((int)fraction[0]);
+                    String denominator = String.valueOf((int)fraction[1]);
+                    num = numerator + "/" + denominator;
+                }
+                this.matrix[i][j].setText(num);
+            }
+        }
+        return this;
     }
 }

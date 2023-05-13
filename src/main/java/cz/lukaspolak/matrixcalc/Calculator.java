@@ -263,7 +263,7 @@ public class Calculator {
             return 0;
         }
 
-        double reduced[][] = gauss(m);
+        double[][] reduced = gauss(m);
         int rank = 0;
 
         for (int i = 0; i < reduced.length; i++) {
@@ -331,5 +331,34 @@ public class Calculator {
         }
 
         return result;
+    }
+
+    public static double[] doubleToFraction(double d) {
+        // https://gist.github.com/joni/4569508
+        if(d == 0) {
+            return new double[] {0, 1};
+        }
+
+        if (d < 0) {
+            double[] result = doubleToFraction(-d);
+            return new double[] { -1 * result[0], result[1] };
+        }
+
+        double tolerance = 1.0E-6;
+        double h1 = 1, h2 = 0;
+        double k1 = 0, k2 = 1;
+        double b = d;
+        do {
+            double a = Math.floor(b);
+            double aux = h1;
+            h1 = a * h1 + h2;
+            h2 = aux;
+            aux = k1;
+            k1 = a * k1 + k2;
+            k2 = aux;
+            b = 1 / (b - a);
+        } while (Math.abs(d - h1 / k1) > d * tolerance);
+
+        return new double[] { h1, k1 };
     }
 }

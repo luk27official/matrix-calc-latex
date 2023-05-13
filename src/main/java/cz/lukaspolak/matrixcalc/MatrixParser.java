@@ -63,7 +63,7 @@ public class MatrixParser {
         return matrix;
     }
 
-    public static String toLaTeXMatrix(double[][] m) {
+    public static String toLaTeXMatrix(double[][] m, boolean withFractions) {
         if(m == null) {
             return null;
         }
@@ -72,7 +72,14 @@ public class MatrixParser {
         sb.append("\\begin{pmatrix}\n");
         for(int i = 0; i < m.length; i++) {
             for(int j = 0; j < m[0].length - 1; j++) {
-                sb.append(m[i][j]).append(" & ");
+                //if the number is not an integer, format it as a fraction
+                if(withFractions && m[i][j] % 1 != 0) {
+                    double[] fraction = Calculator.doubleToFraction(m[i][j]);
+                    sb.append("\\frac{").append(fraction[0]).append("}{").append(fraction[1]).append("}").append(" & ");
+                }
+                else {
+                    sb.append(m[i][j]).append(" & ");
+                }
             }
             sb.append(m[i][m[0].length - 1]).append("\\\\\n");
         }

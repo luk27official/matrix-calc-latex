@@ -24,8 +24,12 @@ public class MainMenu extends JFrame {
     private final static String OUTPUT1 = "LaTeX";
     private final static String OUTPUT2 = "Graphic";
 
+    private final static String OUT_NUMBERS = "Numbers";
+    private final static String OUT_FRACTIONS = "Fractions";
+
     private String inputType = PANEL1;
     private String outputType = OUTPUT1;
+    private String outputNumberType = OUT_NUMBERS;
 
     private int heightM = 4;
     private int widthN = 3;
@@ -251,7 +255,14 @@ public class MainMenu extends JFrame {
         });
         buttons.add(exponentBtn);
 
-        buttons.add(new JButton(""));
+        String[] outputNumberFormatOptions = {OUT_NUMBERS, OUT_FRACTIONS};
+        JComboBox<String> outputNumberFormatCB = new JComboBox<>(outputNumberFormatOptions);
+        outputNumberFormatCB.setEditable(false);
+        outputNumberFormatCB.addItemListener(e -> {
+            this.outputNumberType = (String)e.getItem();
+        });
+        buttons.add(outputNumberFormatCB);
+
         buttons.add(new JButton(""));
         buttons.add(new JButton(""));
 
@@ -326,18 +337,20 @@ public class MainMenu extends JFrame {
     }
 
     private void displayLaTeXMatrixResult(double[][] matrix) {
-        String result = MatrixParser.toLaTeXMatrix(matrix);
+        String result = MatrixParser.toLaTeXMatrix(matrix, this.outputNumberType.equals(OUT_FRACTIONS));
         JTextArea resultTextArea = new JTextArea(result);
         resultTextArea.setEditable(false);
         resultTextArea.setFont(new Font("Arial", Font.PLAIN, 20));
+
         JScrollPane scrollPane = new JScrollPane(resultTextArea);
-        JOptionPane optionPane = new JOptionPane(scrollPane);
-        optionPane.setPreferredSize(scrollPane.getPreferredSize());
-        optionPane.showMessageDialog(this, scrollPane, "Result", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, scrollPane, "Result", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void displayGraphicMatrixResult(double[][] matrix) {
         MatrixPanel resultPanel = new MatrixPanel(matrix);
+        if(this.outputNumberType.equals(OUT_FRACTIONS)) {
+            resultPanel = resultPanel.withFractions();
+        }
         JScrollPane scrollPane = new JScrollPane(resultPanel);
         JOptionPane.showMessageDialog(this, scrollPane, "Result", JOptionPane.INFORMATION_MESSAGE);
     }
