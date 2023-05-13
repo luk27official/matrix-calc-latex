@@ -25,6 +25,11 @@ public class Calculator {
             return null;
         }
 
+        //handle invalid matrix sizes
+        if(m1[0].length != m2.length) {
+            return null;
+        }
+
         double[][] result = new double[m1.length][m2[0].length];
 
         for(int i = 0; i < m1.length; i++) {
@@ -43,6 +48,11 @@ public class Calculator {
             return null;
         }
 
+        //handle invalid matrix sizes
+        if(m1.length != m2.length || m1[0].length != m2[0].length) {
+            return null;
+        }
+
         for(int i = 0; i < m1.length; i++) {
             for(int j = 0; j < m1[0].length; j++) {
                 m1[i][j] -= m2[i][j];
@@ -53,6 +63,11 @@ public class Calculator {
 
     public static double[][] add(double[][] m1, double[][] m2) {
         if(m1 == null || m2 == null) {
+            return null;
+        }
+
+        //handle invalid matrix sizes
+        if(m1.length != m2.length || m1[0].length != m2[0].length) {
             return null;
         }
 
