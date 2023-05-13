@@ -260,18 +260,25 @@ public class MainMenu extends JFrame {
         pane.add(buttons, BorderLayout.SOUTH);
     }
 
-    private double[][] getFirstMatrix() {
+    private double[][] getMatrix(JTextArea textArea, MatrixPanel matrixPanel) {
         if(this.inputType.equals(PANEL1)) {
-            return MatrixParser.parseLaTeXMatrix(inputTextArea1.getText());
+            double[][] result = MatrixParser.parseLaTeXMatrix(textArea.getText());
+            if(result == null) {
+                return null;
+            }
+            this.heightM = result.length;
+            this.widthN = result[0].length;
+            return result;
         }
-        return MatrixParser.parseTextFieldMatrix(inputMatrixPanel1.getMatrix());
+        return MatrixParser.parseTextFieldMatrix(matrixPanel.getMatrix());
+    }
+
+    private double[][] getFirstMatrix() {
+        return getMatrix(inputTextArea1, inputMatrixPanel1);
     }
 
     private double[][] getSecondMatrix() {
-        if(this.inputType.equals(PANEL1)) {
-            return MatrixParser.parseLaTeXMatrix(inputTextArea2.getText());
-        }
-        return MatrixParser.parseTextFieldMatrix(inputMatrixPanel2.getMatrix());
+        return getMatrix(inputTextArea2, inputMatrixPanel2);
     }
 
     private void createMatrixInputPanels(int m, int n, JPanel card) {
@@ -312,6 +319,24 @@ public class MainMenu extends JFrame {
             displayErrorMessage("Invalid input.");
             return;
         }
+        switch(outputType) {
+            case OUTPUT1 -> displayLaTeXMatrixResult(matrix);
+            case OUTPUT2 -> displayGraphicMatrixResult(matrix);
+        }
+    }
+
+    private void displayLaTeXMatrixResult(double[][] matrix) {
+        String result = MatrixParser.toLaTeXMatrix(matrix);
+        JTextArea resultTextArea = new JTextArea(result);
+        resultTextArea.setEditable(false);
+        resultTextArea.setFont(new Font("Arial", Font.PLAIN, 20));
+        JScrollPane scrollPane = new JScrollPane(resultTextArea);
+        JOptionPane optionPane = new JOptionPane(scrollPane);
+        optionPane.setPreferredSize(scrollPane.getPreferredSize());
+        optionPane.showMessageDialog(this, scrollPane, "Result", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void displayGraphicMatrixResult(double[][] matrix) {
         MatrixPanel resultPanel = new MatrixPanel(matrix);
         JScrollPane scrollPane = new JScrollPane(resultPanel);
         JOptionPane.showMessageDialog(this, scrollPane, "Result", JOptionPane.INFORMATION_MESSAGE);
@@ -319,7 +344,7 @@ public class MainMenu extends JFrame {
 
     public void createUIComponents() {
         this.setContentPane(this.mainPanel);
-        this.setTitle("Main Menu");
+        this.setTitle("Matrix Parser");
         this.setSize(500, 500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
@@ -330,11 +355,12 @@ public class MainMenu extends JFrame {
         //1 matrix
         //DONE transpose, determinant, invert
         //DONE: multiplication, exponentiation
+        //DONE: add LaTeX parsing and output
 
-        //TODO: add LaTeX parsing and output
         //TODO: how to handle fractions?
 
         //low-priority TODO: potentially eigenvalues, LU decomposition, QR decomposition, SVD, ...
         //TODO: improve unit tests for calculator
+        //TODO: potentially add some placeholder text to the text areas?
     }
 }
