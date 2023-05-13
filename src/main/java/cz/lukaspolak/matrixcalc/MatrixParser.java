@@ -10,7 +10,7 @@ public class MatrixParser {
             return null;
         }
 
-        String lines[] = m.split("\\r?\\n"); //split by new line
+        String[] lines = m.split("\\r?\\n"); //split by new line
         int beginIdx = -1, endIdx = -1;
         for(int i = 0; i < lines.length; i++) {
             if(lines[i].trim().contains("\\begin")) {
@@ -70,18 +70,17 @@ public class MatrixParser {
 
         StringBuilder sb = new StringBuilder();
         sb.append("\\begin{pmatrix}\n");
-        for(int i = 0; i < m.length; i++) {
-            for(int j = 0; j < m[0].length - 1; j++) {
+        for (double[] doubles : m) {
+            for (int j = 0; j < m[0].length - 1; j++) {
                 //if the number is not an integer, format it as a fraction
-                if(withFractions && m[i][j] % 1 != 0) {
-                    double[] fraction = Calculator.doubleToFraction(m[i][j]);
+                if (withFractions && doubles[j] % 1 != 0) {
+                    double[] fraction = Calculator.doubleToFraction(doubles[j]);
                     sb.append("\\frac{").append(fraction[0]).append("}{").append(fraction[1]).append("}").append(" & ");
-                }
-                else {
-                    sb.append(m[i][j]).append(" & ");
+                } else {
+                    sb.append(doubles[j]).append(" & ");
                 }
             }
-            sb.append(m[i][m[0].length - 1]).append("\\\\\n");
+            sb.append(doubles[m[0].length - 1]).append("\\\\\n");
         }
         sb.append("\\end{pmatrix}");
 

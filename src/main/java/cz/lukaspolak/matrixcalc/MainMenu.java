@@ -5,7 +5,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class MainMenu extends JFrame {
-    private JPanel mainPanel;
+    private final JPanel mainPanel;
 
     private JTextArea inputTextArea1;
     private JTextArea inputTextArea2;
@@ -29,7 +29,7 @@ public class MainMenu extends JFrame {
 
     private String inputType = PANEL1;
     private String outputType = OUTPUT1;
-    private String outputNumberType = OUT_NUMBERS;
+    private String outputNumberType = OUT_FRACTIONS;
 
     private int heightM = 4;
     private int widthN = 3;
@@ -131,48 +131,6 @@ public class MainMenu extends JFrame {
         buttons.add(switchBtn);
         buttons.add(clearBtn);
 
-        JTextField mSizeTextField = new JTextField("Enter m:");
-        mSizeTextField.addActionListener(e -> {
-            try {
-                this.heightM = Integer.parseInt(mSizeTextField.getText());
-                if(this.heightM < 1) {
-                    this.heightM = 1;
-                }
-                if(this.heightM > 15) {
-                    this.heightM = 15;
-                }
-                createMatrixInputPanels(this.heightM, this.widthN, card2);
-            } catch (NumberFormatException ex) {
-                System.out.println("Invalid number format.");
-            }
-        });
-        buttons.add(mSizeTextField);
-
-        JTextField nSizeTextField = new JTextField("Enter n:");
-        nSizeTextField.addActionListener(e -> {
-            try {
-                this.widthN = Integer.parseInt(nSizeTextField.getText());
-                if(this.widthN < 1) {
-                    this.widthN = 1;
-                }
-                if(this.widthN > 15) {
-                    this.widthN = 15;
-                }
-                createMatrixInputPanels(this.heightM, this.widthN, card2);
-            } catch (NumberFormatException ex) {
-                System.out.println("Invalid number format.");
-            }
-        });
-        buttons.add(nSizeTextField);
-
-        String[] outputCBItems = {OUTPUT1, OUTPUT2};
-        JComboBox<String> cb2 = new JComboBox<>(outputCBItems);
-        cb2.setEditable(false);
-        cb2.addItemListener(e -> {
-            this.outputType = (String)e.getItem();
-        });
-        buttons.add(cb2);
-
         JButton transposeBtn = new JButton("A^T");
         transposeBtn.addActionListener(e -> {
             double[][] result = Calculator.transpose(getFirstMatrix());
@@ -224,16 +182,7 @@ public class MainMenu extends JFrame {
         });
         buttons.add(rankBtn);
 
-        JTextField scalarTextField = new JTextField("Enter scalar:");
-        scalarTextField.addActionListener(e -> {
-            try {
-                this.scalar = Double.parseDouble(scalarTextField.getText());
-            } catch (NumberFormatException ex) {
-                System.out.println("Invalid number format.");
-            }
-        });
-        buttons.add(scalarTextField);
-
+        buttons.add(new JButton(""));
         JButton scalarMultiplyBtn = new JButton("A*scalar");
         scalarMultiplyBtn.addActionListener(e -> {
             double[][] result = Calculator.scalarMultiply(getFirstMatrix(), this.scalar);
@@ -254,17 +203,64 @@ public class MainMenu extends JFrame {
             displayMatrixResult(result);
         });
         buttons.add(exponentBtn);
+        buttons.add(new JButton(""));
 
-        String[] outputNumberFormatOptions = {OUT_NUMBERS, OUT_FRACTIONS};
+
+        String[] outputNumberFormatOptions = {OUT_FRACTIONS, OUT_NUMBERS};
         JComboBox<String> outputNumberFormatCB = new JComboBox<>(outputNumberFormatOptions);
         outputNumberFormatCB.setEditable(false);
-        outputNumberFormatCB.addItemListener(e -> {
-            this.outputNumberType = (String)e.getItem();
-        });
+        outputNumberFormatCB.addItemListener(e -> this.outputNumberType = (String)e.getItem());
         buttons.add(outputNumberFormatCB);
 
-        buttons.add(new JButton(""));
-        buttons.add(new JButton(""));
+        JTextField mSizeTextField = new JTextField("Enter m:");
+        mSizeTextField.addActionListener(e -> {
+            try {
+                this.heightM = Integer.parseInt(mSizeTextField.getText());
+                if(this.heightM < 1) {
+                    this.heightM = 1;
+                }
+                if(this.heightM > 15) {
+                    this.heightM = 15;
+                }
+                createMatrixInputPanels(this.heightM, this.widthN, card2);
+            } catch (NumberFormatException ex) {
+                System.out.println("Invalid number format.");
+            }
+        });
+        buttons.add(mSizeTextField);
+
+        JTextField nSizeTextField = new JTextField("Enter n:");
+        nSizeTextField.addActionListener(e -> {
+            try {
+                this.widthN = Integer.parseInt(nSizeTextField.getText());
+                if(this.widthN < 1) {
+                    this.widthN = 1;
+                }
+                if(this.widthN > 15) {
+                    this.widthN = 15;
+                }
+                createMatrixInputPanels(this.heightM, this.widthN, card2);
+            } catch (NumberFormatException ex) {
+                System.out.println("Invalid number format.");
+            }
+        });
+        buttons.add(nSizeTextField);
+
+        JTextField scalarTextField = new JTextField("Enter scalar:");
+        scalarTextField.addActionListener(e -> {
+            try {
+                this.scalar = Double.parseDouble(scalarTextField.getText());
+            } catch (NumberFormatException ex) {
+                System.out.println("Invalid number format.");
+            }
+        });
+        buttons.add(scalarTextField);
+
+        String[] outputCBItems = {OUTPUT1, OUTPUT2};
+        JComboBox<String> cb2 = new JComboBox<>(outputCBItems);
+        cb2.setEditable(false);
+        cb2.addItemListener(e -> this.outputType = (String)e.getItem());
+        buttons.add(cb2);
 
         pane.add(comboBoxPane, BorderLayout.NORTH);
         pane.add(cards, BorderLayout.CENTER);
@@ -369,11 +365,11 @@ public class MainMenu extends JFrame {
         //DONE transpose, determinant, invert
         //DONE: multiplication, exponentiation
         //DONE: add LaTeX parsing and output
-
-        //TODO: how to handle fractions?
+        //DONE: fractions
+        //DONE: improve unit tests for calculator
 
         //low-priority TODO: potentially eigenvalues, LU decomposition, QR decomposition, SVD, ...
-        //TODO: improve unit tests for calculator
-        //TODO: potentially add some placeholder text to the text areas?
+        //TODO: javadoc documentation
+        //TODO: code review
     }
 }

@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 
 public class MatrixPanel extends JPanel {
 
-    private JTextField[][] matrix;
+    private final JTextField[][] matrix;
 
     public JTextField[][] getMatrix() {
         return this.matrix;
@@ -29,9 +29,9 @@ public class MatrixPanel extends JPanel {
     }
 
     public void clearMatrix() {
-        for(int i = 0; i < this.matrix.length; i++) {
-            for(int j = 0; j < this.matrix[0].length; j++) {
-                this.matrix[i][j].setText("");
+        for (JTextField[] jTextFields : this.matrix) {
+            for (int j = 0; j < this.matrix[0].length; j++) {
+                jTextFields[j].setText("");
             }
         }
     }
@@ -66,7 +66,7 @@ public class MatrixPanel extends JPanel {
 
         for(int i = 0; i < m; i++) {
             for(int j = 0; j < n; j++) {
-                String number = i * n + j + "";
+                String number = String.valueOf(i * n + j);
                 JTextField textField = new JTextField(number);
                 textField.setFont(new Font("Arial", Font.PLAIN, 20));
                 textField.setHorizontalAlignment(JTextField.CENTER);
@@ -88,19 +88,18 @@ public class MatrixPanel extends JPanel {
     }
 
     public MatrixPanel withFractions() {
-        for(int i = 0; i < this.matrix.length; i++) {
-            for(int j = 0; j < this.matrix[0].length; j++) {
-                String num = this.matrix[i][j].getText();
-                if(num.endsWith(".0")) {
+        for (JTextField[] jTextFields : this.matrix) {
+            for (int j = 0; j < this.matrix[0].length; j++) {
+                String num = jTextFields[j].getText();
+                if (num.endsWith(".0")) {
                     num = num.substring(0, num.length() - 2);
-                }
-                else if(num.contains(".") && !num.contains("/")) {
+                } else if (num.contains(".") && !num.contains("/")) {
                     double[] fraction = Calculator.doubleToFraction(Double.parseDouble(num));
-                    String numerator = String.valueOf((int)fraction[0]);
-                    String denominator = String.valueOf((int)fraction[1]);
+                    String numerator = String.valueOf((int) fraction[0]);
+                    String denominator = String.valueOf((int) fraction[1]);
                     num = numerator + "/" + denominator;
                 }
-                this.matrix[i][j].setText(num);
+                jTextFields[j].setText(num);
             }
         }
         return this;

@@ -53,12 +53,15 @@ public class Calculator {
             return null;
         }
 
+        double[][] result = new double[m1.length][m1[0].length];
+
         for(int i = 0; i < m1.length; i++) {
             for(int j = 0; j < m1[0].length; j++) {
-                m1[i][j] -= m2[i][j];
+                result[i][j] = m1[i][j] - m2[i][j];
             }
         }
-        return m1;
+
+        return result;
     }
 
     public static double[][] add(double[][] m1, double[][] m2) {
@@ -71,16 +74,18 @@ public class Calculator {
             return null;
         }
 
+        double[][] result = new double[m1.length][m1[0].length];
+
         for(int i = 0; i < m1.length; i++) {
-            for(int j = 0; j < m1[0].length; j++) {
-                m1[i][j] += m2[i][j];
+            for (int j = 0; j < m1[0].length; j++) {
+                result[i][j] = m1[i][j] + m2[i][j];
             }
         }
-        return m1;
+        return result;
     }
 
     public static double determinant(double[][] m) {
-        if(m == null) {
+        if(m == null || m.length != m[0].length) {
             return 0;
         }
 
@@ -161,9 +166,7 @@ public class Calculator {
 
         double[][] result = new double[numRows][numCols];
         for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
-                result[i][j] = m[i][j];
-            }
+            System.arraycopy(m[i], 0, result[i], 0, numCols);
         }
 
         // Gaussian elimination with partial pivoting
@@ -266,10 +269,10 @@ public class Calculator {
         double[][] reduced = gauss(m);
         int rank = 0;
 
-        for (int i = 0; i < reduced.length; i++) {
+        for (double[] doubles : reduced) {
             boolean allZero = true;
             for (int j = 0; j < reduced[0].length; j++) {
-                if (reduced[i][j] != 0) {
+                if (doubles[j] != 0) {
                     allZero = false;
                     break;
                 }
@@ -315,15 +318,13 @@ public class Calculator {
     }
 
     public static double[][] exponent(double[][] m, double scalar) {
-        if(m == null) {
+        if(m == null || m.length != m[0].length || scalar < 1) {
             return null;
         }
 
         double[][] result = new double[m.length][m[0].length];
         for (int i = 0; i < m.length; i++) {
-            for (int j = 0; j < m[0].length; j++) {
-                result[i][j] = m[i][j];
-            }
+            System.arraycopy(m[i], 0, result[i], 0, m[0].length);
         }
 
         for(int i = 0; i < scalar - 1; i++) {
