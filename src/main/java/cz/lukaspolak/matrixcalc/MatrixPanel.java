@@ -75,7 +75,7 @@ public class MatrixPanel extends JPanel {
                 textField.addKeyListener(new java.awt.event.KeyAdapter() {
                     public void keyTyped(java.awt.event.KeyEvent evt) {
                         char c = evt.getKeyChar();
-                        if (!((c >= '0') && (c <= '9') || (c == '.') || (c == '-') || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+                        if (!((c >= '0') && (c <= '9') || (c == '.') || (c == '-') || (c == '/') || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
                             evt.consume();
                         }
                     }
