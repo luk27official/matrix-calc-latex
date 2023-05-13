@@ -8,8 +8,15 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for Calculator class.
+ * All the tests are parameterized and similar to each other, so only the first one is commented.
+ */
 class CalculatorTest {
 
+    /**
+     * Test matrices.
+     */
     static double[][][] matrices = new double[][][] {
         new double[][] {{1, 2, 3}, {4, 5, 6}},
         new double[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}},
@@ -24,6 +31,10 @@ class CalculatorTest {
         new double[][] {{ 3, 7, 2, 1 }, { 5, 4, 6, 8 }, { 9, 0, 2, 4 }, { 1, 6, 5, 3 }}
     };
 
+    /**
+     * Returns a stream of arguments for matrix rank unit tests.
+     * @return a stream of the arguments
+     */
     static Stream<Arguments> rankMatrixProvider() {
         return Stream.of(
             Arguments.of(matrices[0], 2),
@@ -36,6 +47,11 @@ class CalculatorTest {
         );
     }
 
+    /**
+     * Tests the Calculator.rank() method.
+     * @param matrix the matrix to test
+     * @param expectedRank the expected rank of the matrix
+     */
     @ParameterizedTest
     @MethodSource("rankMatrixProvider")
     void rankTests(double[][] matrix, int expectedRank) {

@@ -3,8 +3,16 @@ package cz.lukaspolak.matrixcalc;
 import javax.swing.*;
 import java.util.ArrayList;
 
+/**
+ * This class provides methods for parsing matrices from LaTeX format and JTextField[][] matrix.
+ */
 public class MatrixParser {
 
+    /**
+     * Parses matrix from LaTeX format.
+     * @param m LaTeX matrix
+     * @return matrix
+     */
     public static double[][] parseLaTeXMatrix(String m) {
         if(m == null) {
             return null;
@@ -63,6 +71,12 @@ public class MatrixParser {
         return matrix;
     }
 
+    /**
+     * Converts matrix to LaTeX format.
+     * @param m matrix
+     * @param withFractions if true, format numbers as fractions
+     * @return LaTeX matrix
+     */
     public static String toLaTeXMatrix(double[][] m, boolean withFractions) {
         if(m == null) {
             return null;
@@ -87,6 +101,11 @@ public class MatrixParser {
         return sb.toString();
     }
 
+    /**
+     * Parses matrix from JTextField[][] matrix and converts it to a double[][] matrix.
+     * @param m matrix in JTextField[][] format
+     * @return matrix in double[][] format
+     */
     public static double[][] parseTextFieldMatrix(JTextField[][] m) {
         double[][] matrix = new double[m.length][m[0].length];
 

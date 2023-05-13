@@ -2,8 +2,18 @@ package cz.lukaspolak.matrixcalc;
 
 import java.util.ArrayList;
 
+/**
+ * This class contains methods for matrix and other calculations.
+ * We assume that the matrices are in the double[][] format.
+ * The methods are static.
+ */
 public class Calculator {
 
+    /**
+     * Returns the transposed matrix.
+     * @param m matrix
+     * @return transposed matrix
+     */
     public static double[][] transpose(double[][] m) {
         if(m == null) {
             return null;
@@ -20,6 +30,13 @@ public class Calculator {
         return result;
     }
 
+    /**
+     * Returns the multiplication of two matrices. If the matrices are not compatible, returns null.
+     * Keep in mind that the order of the matrices matters.
+     * @param m1 first matrix
+     * @param m2 second matrix
+     * @return multiplication of the matrices (m1 * m2)
+     */
     public static double[][] multiply(double[][] m1, double[][] m2) {
         if(m1 == null || m2 == null) {
             return null;
@@ -43,6 +60,13 @@ public class Calculator {
         return result;
     }
 
+    /**
+     * Returns the subtraction of two matrices. If the matrices are not compatible, returns null.
+     * Keep in mind that the order of the matrices matters.
+     * @param m1 first matrix
+     * @param m2 second matrix
+     * @return subtraction of the matrices (m1 - m2)
+     */
     public static double[][] subtract(double[][] m1, double[][] m2) {
         if(m1 == null || m2 == null) {
             return null;
@@ -64,6 +88,12 @@ public class Calculator {
         return result;
     }
 
+    /**
+     * Returns the addition of two matrices. If the matrices are not compatible, returns null.
+     * @param m1 first matrix
+     * @param m2 second matrix
+     * @return addition of the matrices (m1 + m2)
+     */
     public static double[][] add(double[][] m1, double[][] m2) {
         if(m1 == null || m2 == null) {
             return null;
@@ -84,6 +114,11 @@ public class Calculator {
         return result;
     }
 
+    /**
+     * Returns the determinant of the matrix. If the matrix is not square, returns 0.
+     * @param m matrix
+     * @return determinant of the matrix
+     */
     public static double determinant(double[][] m) {
         if(m == null || m.length != m[0].length) {
             return 0;
@@ -118,6 +153,11 @@ public class Calculator {
         return result;
     }
 
+    /**
+     * Returns the inverse of the matrix. If the matrix is not square or its determinant is 0, returns null.
+     * @param m matrix
+     * @return inverse of the matrix
+     */
     public static double[][] inverse(double[][] m) {
         if(m == null) {
             return null;
@@ -156,6 +196,11 @@ public class Calculator {
         return result;
     }
 
+    /**
+     * Applies the Gaussian elimination algorithm to the matrix and returns the result.
+     * @param m matrix
+     * @return result of the Gaussian elimination
+     */
     public static double[][] gauss(double[][] m) {
         if(m == null) {
             return null;
@@ -261,6 +306,11 @@ public class Calculator {
         return result;
     }
 
+    /**
+     * Returns the rank of the matrix.
+     * @param m matrix
+     * @return rank of the matrix
+     */
     public static int rank(double[][] m) {
         if(m == null) {
             return 0;
@@ -285,6 +335,12 @@ public class Calculator {
         return rank;
     }
 
+    /**
+     * Returns the product of a scalar and a matrix.
+     * @param m matrix
+     * @param scalar scalar
+     * @return product of the scalar and the matrix
+     */
     public static double[][] scalarMultiply(double[][] m, double scalar) {
         if(m == null) {
             return null;
@@ -301,6 +357,12 @@ public class Calculator {
         return result;
     }
 
+    /**
+     * Returns the sum of a scalar and a matrix.
+     * @param m matrix
+     * @param scalar scalar
+     * @return sum of the scalar and the matrix
+     */
     public static double[][] scalarAdd(double[][] m, double scalar) {
         if(m == null) {
             return null;
@@ -317,6 +379,12 @@ public class Calculator {
         return result;
     }
 
+    /**
+     * Returns a matrix raised to a given power.
+     * @param m matrix
+     * @param scalar power
+     * @return matrix raised to the given power
+     */
     public static double[][] exponent(double[][] m, double scalar) {
         if(m == null || m.length != m[0].length || scalar < 1) {
             return null;
@@ -334,8 +402,13 @@ public class Calculator {
         return result;
     }
 
+    /**
+     * Converts a double to a fraction.
+     * Uses this algorithm: https://gist.github.com/joni/4569508
+     * @param d double
+     * @return fraction in the form of a double array (numerator, denominator)
+     */
     public static double[] doubleToFraction(double d) {
-        // https://gist.github.com/joni/4569508
         if(d == 0) {
             return new double[] {0, 1};
         }

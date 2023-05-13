@@ -5,6 +5,10 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class MainMenu extends JFrame {
+    public MainMenu() {
+        this.mainPanel = new JPanel();
+    }
+
     private final JPanel mainPanel;
 
     private JTextArea inputTextArea1;
@@ -12,10 +16,6 @@ public class MainMenu extends JFrame {
 
     private MatrixPanel inputMatrixPanel1;
     private MatrixPanel inputMatrixPanel2;
-
-    public MainMenu() {
-        this.mainPanel = new JPanel();
-    }
 
     private JPanel cards;
     private final static String PANEL1 = "LaTeX input";
@@ -371,5 +371,6 @@ public class MainMenu extends JFrame {
         //low-priority TODO: potentially eigenvalues, LU decomposition, QR decomposition, SVD, ...
         //TODO: javadoc documentation
         //TODO: code review
+        //TODO: user docs
     }
 }

@@ -4,14 +4,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
+/**
+ * A custom JPanel for displaying matrices. Also used for graphical input of matrices.
+ */
 public class MatrixPanel extends JPanel {
 
     private final JTextField[][] matrix;
 
+    /**
+     * Returns the matrix of this panel.
+     * @return the matrix of this panel
+     */
     public JTextField[][] getMatrix() {
         return this.matrix;
     }
 
+    /**
+     * Sets the matrix of this panel.
+     * @param matrix the matrix to be set
+     */
     public void setMatrix(double[][] matrix) {
         if(matrix == null) {
             return;
@@ -28,6 +39,9 @@ public class MatrixPanel extends JPanel {
         }
     }
 
+    /**
+     * Clears the matrix of this panel.
+     */
     public void clearMatrix() {
         for (JTextField[] jTextFields : this.matrix) {
             for (int j = 0; j < this.matrix[0].length; j++) {
@@ -36,6 +50,12 @@ public class MatrixPanel extends JPanel {
         }
     }
 
+    /**
+     * Creates a new MatrixPanel with the given matrix values.
+     * This constructor is used for displaying matrices.
+     * Note that the matrix is not editable.
+     * @param matrix the matrix to be displayed
+     */
     public MatrixPanel(double[][] matrix) {
         super();
 
@@ -58,6 +78,12 @@ public class MatrixPanel extends JPanel {
         }
     }
 
+    /**
+     * Creates a new MatrixPanel with the given dimensions.
+     * Implicitly fills the matrix with numbers from 0 to m*n-1.
+     * @param m the number of rows (height)
+     * @param n the number of columns (width)
+     */
     public MatrixPanel(int m, int n) {
         super();
 
@@ -87,6 +113,10 @@ public class MatrixPanel extends JPanel {
         }
     }
 
+    /**
+     * Returns a MatrixPanel with decimal numbers represented as fractions.
+     * @return a MatrixPanel with fractions
+     */
     public MatrixPanel withFractions() {
         for (JTextField[] jTextFields : this.matrix) {
             for (int j = 0; j < this.matrix[0].length; j++) {
