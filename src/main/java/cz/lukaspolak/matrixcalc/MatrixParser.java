@@ -25,21 +25,33 @@ public class MatrixParser {
         }
 
         ArrayList<Double[]> listDouble = new ArrayList<>();
-
-        for(int row = beginIdx + 1; row < endIdx; row++) {
-            String line = lines[row];
-            String newLine = line.trim().replace("\\\\", "");
-            String[] numbers = newLine.split("&");
-            Double[] rowDouble = new Double[numbers.length];
-            for(int i = 0; i < numbers.length; i++) {
-                try {
-                    rowDouble[i] = Double.parseDouble(numbers[i]);
-                } catch (NumberFormatException e) {
-                    return null;
+        try {
+            for(int row = beginIdx + 1; row < endIdx; row++) {
+                String line = lines[row];
+                String newLine = line.trim().replace("\\\\", "");
+                String[] numbers = newLine.split("&");
+                Double[] rowDouble = new Double[numbers.length];
+                for(int i = 0; i < numbers.length; i++) {
+                    // handle fractions
+                    if(numbers[i].contains("\\frac")) {
+                        String[] fraction = numbers[i].split("\\{");
+                        if(fraction.length != 3) {
+                            return null;
+                        }
+                        String firstNum = fraction[1].replace("}", "");
+                        String secondNum = fraction[2].replace("}", "");
+                        rowDouble[i] = Double.parseDouble(firstNum) / Double.parseDouble(secondNum);
+                    }
+                    else {
+                        rowDouble[i] = Double.parseDouble(numbers[i]);
+                    }
                 }
+                listDouble.add(rowDouble);
             }
-            listDouble.add(rowDouble);
+        } catch (NumberFormatException e) {
+            return null;
         }
+
 
         double[][] matrix = new double[listDouble.size()][listDouble.get(0).length];
         for(int i = 0; i < listDouble.size(); i++) {
@@ -75,7 +87,18 @@ public class MatrixParser {
         try {
             for(int i = 0; i < m.length; i++) {
                 for(int j = 0; j < m[0].length; j++) {
-                    matrix[i][j] = Double.parseDouble(m[i][j].getText());
+                    String text = m[i][j].getText();
+                    // handle fractions
+                    if(text.contains("/")) {
+                        String[] fraction = text.split("/");
+                        if(fraction.length != 2) {
+                            return null;
+                        }
+                        matrix[i][j] = Double.parseDouble(fraction[0]) / Double.parseDouble(fraction[1]);
+                    }
+                    else {
+                        matrix[i][j] = Double.parseDouble(text);
+                    }
                 }
             }
         } catch (NumberFormatException e) {

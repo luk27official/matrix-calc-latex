@@ -299,6 +299,10 @@ public class Calculator {
     }
 
     public static double[][] scalarAdd(double[][] m, double scalar) {
+        if(m == null) {
+            return null;
+        }
+
         double[][] result = new double[m.length][m[0].length];
 
         for(int i = 0; i < m.length; i++) {
