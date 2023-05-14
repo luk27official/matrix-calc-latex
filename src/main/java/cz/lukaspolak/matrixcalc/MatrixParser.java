@@ -97,15 +97,19 @@ public class MatrixParser {
                 if (withFractions && doubles[j] % 1 != 0) {
                     double[] fraction = Calculator.doubleToFraction(doubles[j]);
                     sb.append("\\frac{").append(fraction[0]).append("}{").append(fraction[1]).append("}").append(" & ");
-                } else {
+                } else if (doubles[j] % 1 == 0) {
                     sb.append((int)doubles[j]).append(" & ");
+                } else {
+                    sb.append(doubles[j]).append(" & ");
                 }
             }
             if (withFractions && doubles[m[0].length - 1] % 1 != 0) {
                 double[] fraction = Calculator.doubleToFraction(doubles[m[0].length - 1]);
-                sb.append("\\frac{").append(fraction[0]).append("}{").append(fraction[1]).append("}").append("\\\\\n");
-            } else {
+                sb.append("\\frac{").append((int)fraction[0]).append("}{").append((int)fraction[1]).append("}").append("\\\\\n");
+            } else if (doubles[m[0].length - 1] % 1 == 0) {
                 sb.append((int)doubles[m[0].length - 1]).append("\\\\\n");
+            } else {
+                sb.append(doubles[m[0].length - 1]).append("\\\\\n");
             }
         }
         sb.append("\\end{pmatrix}");
