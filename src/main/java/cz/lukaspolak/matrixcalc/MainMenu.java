@@ -478,20 +478,9 @@ public class MainMenu extends JFrame {
         this.setSize(500, 500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+        this.setLocationRelativeTo(null); // center the window on the screen
 
         mainPanel.setLayout(new BorderLayout());
         addComponentsToPane(mainPanel);
-
-        //1 matrix
-        //DONE transpose, determinant, invert
-        //DONE: multiplication, exponentiation
-        //DONE: add LaTeX parsing and output
-        //DONE: fractions
-        //DONE: improve unit tests for calculator
-        //DONE: javadoc documentation
-        //DONE: code review
-
-        //low-priority TODO: potentially eigenvalues, LU decomposition, QR decomposition, SVD, ...
-        //TODO: user docs
     }
 }
