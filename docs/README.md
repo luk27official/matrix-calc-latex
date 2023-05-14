@@ -56,4 +56,22 @@ Some examples of LaTeX matrices:
 ```
 
 # Programming documentation
-- TODO
+
+The program is written in Java 19. It uses Java Swing for the GUI and JUnit 5 for testing. Documentation is generated via Javadoc (`mvn javadoc:javadoc`), the documentation is located in the `target/site/apidocs` directory.
+
+The repository contains one created package called `cz.lukaspolak.matrixcalc`. The package contains all of the program logic including all the classes.
+
+The package contains the following classes:
+- `Calculator.java` - contains the matrix operations and calculation logic
+- `Main.java` - contains the main method, an entry point to the program
+- `MainMenu.java` - contains the GUI logic displaying the matrices and handling the user input
+- `MatrixPanel.java` - contains a custom JPanel for displaying a matrix, used also for storing the matrix data
+- `MatrixParser.java` - contains the logic for parsing the matrix from the LaTeX code / graphical input
+- `test/CalculatorTest.java` - contains the unit tests for the `Calculator` class
+
+Possible future improvements:
+- add support for irrational numbers
+- add support for complex numbers
+- add support for vectors
+- improve the design of the GUI
+- add support for more operations (e.g. eigenvalues, eigenvectors, LU decomposition, QR decomposition, etc.)
