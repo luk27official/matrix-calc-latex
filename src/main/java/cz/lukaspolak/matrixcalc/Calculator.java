@@ -10,6 +10,12 @@ import java.util.ArrayList;
 public class Calculator {
 
     /**
+     * A private constructor to prevent instantiation.
+     */
+    Calculator() {
+        //this class should not be instantiated
+    }
+    /**
      * Returns the transposed matrix.
      * @param m matrix
      * @return transposed matrix

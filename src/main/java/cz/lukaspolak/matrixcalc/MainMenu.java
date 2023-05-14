@@ -4,39 +4,114 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
+/**
+ * This class provides the main menu of the application. It extends the JFrame class and contains all the components.
+ */
 public class MainMenu extends JFrame {
+
+    /**
+     * A constructor for the MainMenu class. Creates a new JPanel.
+     */
     public MainMenu() {
         this.mainPanel = new JPanel();
     }
 
+    /**
+     * The main JPanel of the application. Contains all the other components.
+     */
     private final JPanel mainPanel;
 
+    /**
+     * The first text area for matrix input.
+     */
     private JTextArea inputTextArea1;
+
+    /**
+     * The second text area for matrix input.
+     */
     private JTextArea inputTextArea2;
 
+    /**
+     * The first matrix input panel. Contains the matrix values.
+     */
     private MatrixPanel inputMatrixPanel1;
+
+    /**
+     * The second matrix input panel. Contains the matrix values.
+     */
     private MatrixPanel inputMatrixPanel2;
 
+    /**
+     * JPanel that allows the user to choose the input format.
+     */
     private JPanel cards;
+
+    /**
+     * First input type.
+     */
     private final static String PANEL1 = "LaTeX input";
+
+    /**
+     * Second input type.
+     */
     private final static String PANEL2 = "Graphic input";
 
+    /**
+     * First output type.
+     */
     private final static String OUTPUT1 = "LaTeX";
+
+    /**
+     * Second output type.
+     */
     private final static String OUTPUT2 = "Graphic";
 
+    /**
+     * First number output type.
+     */
     private final static String OUT_NUMBERS = "Numbers";
+
+    /**
+     * Second number output type.
+     */
     private final static String OUT_FRACTIONS = "Fractions";
 
+    /**
+     * Contains the current input type.
+     */
     private String inputType = PANEL1;
+
+    /**
+     * Contains the current output type.
+     */
     private String outputType = OUTPUT1;
+
+    /**
+     * Contains the current number output type.
+     */
     private String outputNumberType = OUT_FRACTIONS;
 
+    /**
+     * The height of the first matrix.
+     */
     private int heightM = 4;
+
+    /**
+     * The width of the first matrix.
+     */
     private int widthN = 3;
 
+    /**
+     * The current value of the scalar (provided by the user).
+     */
     private double scalar = 1;
 
-    private void addComponentToPane(Container pane) {
+    /**
+     * This method creates the components of the application and adds them to the main pane.
+     * @param pane the main pane
+     */
+    private void addComponentsToPane(Container pane) {
+        // input type switch
         JPanel comboBoxPane = new JPanel();
         String[] comboBoxItems = {PANEL1, PANEL2};
         JComboBox<String> cb = new JComboBox<>(comboBoxItems);
@@ -48,8 +123,8 @@ public class MainMenu extends JFrame {
         });
         comboBoxPane.add(cb);
 
+        // textareas for input
         JPanel card1 = new JPanel();
-
         card1.setLayout(new GridLayout(1, 2));
 
         Border border = BorderFactory.createLineBorder(Color.BLACK);
@@ -71,8 +146,8 @@ public class MainMenu extends JFrame {
 
         card1.add(scroll2);
 
+        // matrix panels for input
         JPanel card2 = new JPanel();
-
         card2.setLayout(new GridLayout(1, 2));
 
         createMatrixInputPanels(this.heightM, this.widthN, card2);
@@ -81,6 +156,8 @@ public class MainMenu extends JFrame {
         cards.add(card1, PANEL1);
         cards.add(card2, PANEL2);
 
+        // buttons panel
+        // most of the buttons have an action listener that calls a method from the Calculator class
         JPanel buttons = new JPanel();
         buttons.setLayout(new GridLayout(4, 5));
 
@@ -267,6 +344,12 @@ public class MainMenu extends JFrame {
         pane.add(buttons, BorderLayout.SOUTH);
     }
 
+    /**
+     * Returns the matrix from the active input panel. If the input is invalid, returns null.
+     * @param textArea the text area to parse the matrix from
+     * @param matrixPanel the matrix panel to parse the matrix from
+     * @return the matrix from the active input panel
+     */
     private double[][] getMatrix(JTextArea textArea, MatrixPanel matrixPanel) {
         if(this.inputType.equals(PANEL1)) {
             double[][] result = MatrixParser.parseLaTeXMatrix(textArea.getText());
@@ -280,14 +363,28 @@ public class MainMenu extends JFrame {
         return MatrixParser.parseTextFieldMatrix(matrixPanel.getMatrix());
     }
 
+    /**
+     * Returns the value of the first matrix (on the left).
+     * @return the value of the first matrix
+     */
     private double[][] getFirstMatrix() {
         return getMatrix(inputTextArea1, inputMatrixPanel1);
     }
 
+    /**
+     * Returns the value of the second matrix (on the right).
+     * @return the value of the second matrix
+     */
     private double[][] getSecondMatrix() {
         return getMatrix(inputTextArea2, inputMatrixPanel2);
     }
 
+    /**
+     * Creates two MatrixPanel instances and adds them to the given card.
+     * @param m the height of the matrix (number of rows)
+     * @param n the width of the matrix (number of columns)
+     * @param card the card to add the MatrixPanels to
+     */
     private void createMatrixInputPanels(int m, int n, JPanel card) {
         Border border = BorderFactory.createLineBorder(Color.BLACK);
         Border b = BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -309,9 +406,18 @@ public class MainMenu extends JFrame {
         this.repaint();
     }
 
+    /**
+     * Displays an error message.
+     * @param error the error message to display
+     */
     private void displayErrorMessage(String error) {
         JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
     }
+
+    /**
+     * Displays the result of a number operation.
+     * @param result the result of the operation
+     */
     private void displayNumberResult(double result) {
         String num = String.valueOf(result);
         //if is integer, remove the .0
@@ -321,6 +427,10 @@ public class MainMenu extends JFrame {
         JOptionPane.showMessageDialog(this, "The result is " + num, "Result", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Displays the result of a matrix operation.
+     * @param matrix the result of the operation
+     */
     private void displayMatrixResult(double[][] matrix) {
         if(matrix == null) {
             displayErrorMessage("Invalid input.");
@@ -332,6 +442,10 @@ public class MainMenu extends JFrame {
         }
     }
 
+    /**
+     * Displays the result of a matrix operation in a LaTeX format.
+     * @param matrix the result of the operation
+     */
     private void displayLaTeXMatrixResult(double[][] matrix) {
         String result = MatrixParser.toLaTeXMatrix(matrix, this.outputNumberType.equals(OUT_FRACTIONS));
         JTextArea resultTextArea = new JTextArea(result);
@@ -342,6 +456,10 @@ public class MainMenu extends JFrame {
         JOptionPane.showMessageDialog(this, scrollPane, "Result", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Displays the result of a matrix operation in a graphic format.
+     * @param matrix the result of the operation
+     */
     private void displayGraphicMatrixResult(double[][] matrix) {
         MatrixPanel resultPanel = new MatrixPanel(matrix);
         if(this.outputNumberType.equals(OUT_FRACTIONS)) {
@@ -351,6 +469,9 @@ public class MainMenu extends JFrame {
         JOptionPane.showMessageDialog(this, scrollPane, "Result", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Creates the UI components. Should be called after initializing this class.
+     */
     public void createUIComponents() {
         this.setContentPane(this.mainPanel);
         this.setTitle("Matrix Parser");
@@ -359,7 +480,7 @@ public class MainMenu extends JFrame {
         this.setVisible(true);
 
         mainPanel.setLayout(new BorderLayout());
-        addComponentToPane(mainPanel);
+        addComponentsToPane(mainPanel);
 
         //1 matrix
         //DONE transpose, determinant, invert
@@ -367,10 +488,10 @@ public class MainMenu extends JFrame {
         //DONE: add LaTeX parsing and output
         //DONE: fractions
         //DONE: improve unit tests for calculator
+        //DONE: javadoc documentation
+        //DONE: code review
 
         //low-priority TODO: potentially eigenvalues, LU decomposition, QR decomposition, SVD, ...
-        //TODO: javadoc documentation
-        //TODO: code review
         //TODO: user docs
     }
 }

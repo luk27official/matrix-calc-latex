@@ -9,6 +9,13 @@ import java.util.ArrayList;
 public class MatrixParser {
 
     /**
+     * Private constructor to prevent instantiation without parameters.
+     */
+    MatrixParser() {
+        //private constructor to prevent instantiation without parameters
+    }
+
+    /**
      * Parses matrix from LaTeX format.
      * @param m LaTeX matrix
      * @return matrix

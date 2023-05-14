@@ -9,6 +9,9 @@ import java.awt.event.KeyEvent;
  */
 public class MatrixPanel extends JPanel {
 
+    /**
+     * The matrix of this panel.
+     */
     private final JTextField[][] matrix;
 
     /**
